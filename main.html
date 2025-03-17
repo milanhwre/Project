@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang=en>
+<head>
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Token Checker</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}header{position:relative;width:100%;height:120px;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 4px 8px rgba(0,0,0,.2);overflow:hidden}.header-wrapper{display:flex;width:100%;height:100%;position:relative}.header-left{flex:1;background:#7d7dff;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Arial Black',sans-serif;font-style:italic;clip-path:polygon(0 0,100% 0,90% 100%,0% 100%)}.header-right{flex:1;background:#fff;color:#000;display:flex;align-items:center;justify-content:center;font-family:'Arial Black',sans-serif;font-style:italic;clip-path:polygon(10% 0,100% 0,100% 100%,0 100%)}.header-left h1,.header-right h1{font-size:1.2rem;font-weight:700;letter-spacing:.1px;text-transform:uppercase}.container{background:#fff;border:1px solid #ddd;border-radius:10px;width:auto;max-width:600px;margin:30px;padding:20px;text-align:center;margin-bottom:15px;font-weight:700;box-sizing:border-box}textarea{color:green;font-weight:700;padding:10px 20px;border-radius:45px;box-shadow:inset 0 3px 6px rgba(0,0,0,.15);transition:all .3s ease-in-out;width:100%;height:140px;outline:0;border:1px solid #888;font-size:1rem;box-sizing:border-box;resize:none;background:#f9f9f9}textarea:focus{border-color:#4caf50;box-shadow:0 0 8px rgba(76,175,80,.5);transform:scale(1.02)}button{padding:.7rem 3.25rem;margin-top:10px;color:#fff;background-color:#007bff;border:none;border-radius:50rem;cursor:pointer;font-size:1rem;text-transform:uppercase;font-weight:700;letter-spacing:1px;box-shadow:0 2px 5px rgba(0,0,0,.2);transition:background-color .3s,transform .2s}button:hover{background-color:#0056b3;transform:scale(1.05)}button:active{transform:scale(.95)}.result-container{margin-top:20px}.token-box{background:#fff;border:1px solid #ddd;padding:10px;margin-top:10px;border-radius:10px;box-shadow:0 0 5px rgba(0,0,0,.2);opacity:0;transform:translateY(10px);animation:fadeInUp .5s forwards}@keyframes fadeInUp{to{opacity:1;transform:translateY(0)}}footer{background-color:#333;color:#fff;text-align:center;padding:20px;font-weight:700}footer p{margin:20px 0;font-size:16px}.facebook-link,.whatsapp-link{display:inline-block;padding:10px 22px;border-radius:38px;color:#fff;margin:4px;text-decoration:none;font-weight:700;transition:transform .2s}.facebook-link{background-color:#4267b2}.whatsapp-link{background-color:#25d366}.facebook-link:hover,.whatsapp-link:hover{transform:scale(1.05)}.facebook-link:active,.whatsapp-link:active{transform:scale(.95)}.hidden{display:none}.complete-animation{margin-top:20px;font-size:1.5rem;color:green;font-weight:700;animation:bounce 1s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}.copy-section{margin-top:20px;display:none}.copy-section textarea{width:100%;height:100px;border-radius:10px;border:1px solid #ccc;padding:10px;font-size:1rem}.summary{margin-top:20px;font-size:1.2rem;font-weight:700}</style>
+</head>
+<body>
+<header>
+<div class=header-wrapper>
+<div class=header-left>
+<h1>ANISH</h1>
+</div>
+<div class=header-right>
+<h1>TOKEN CHECKER</h1>
+</div>
+</div>
+</header>
+<div class=container>
+<form id=token-form>
+<textarea name=tokens placeholder="Enter Your's Token "></textarea>
+<button type=button onclick=checkTokens()>Check Tokens</button>
+</form>
+<div class=result-container id=result-container></div>
+<div id=complete-animation class=hidden>✅ <strong>All Tokens Checked!</strong> ✅</div>
+<div id=summary class="summary hidden"></div>
+<div class=copy-section id=copy-section>
+<textarea id=valid-tokens readonly></textarea>
+<button onclick=copyTokens()>Copy Valid Tokens</button>
+</div>
+</div>
+<footer class=footer>
+<p>©2025 Token Checker Multy Version </p>
+<p>ANISH HWRE ENJOY</p>
+<p>Owner: Anish</p>
+<a href= https://www.facebook.com/profile.php?id=100003658223632class=facebook-link>Chat on Messenger</a>
+<a href=https://wa.me/+9779704612289 class=whatsapp-link>Chat on WhatsApp</a>
+</footer>
+<script>async function checkTokens(){const e=document.getElementById("token-form").tokens.value.trim().split("\n"),t=document.getElementById("result-container"),n=document.getElementById("complete-animation"),o=document.getElementById("copy-section"),l=document.getElementById("valid-tokens"),d=document.getElementById("summary");if(t.innerHTML="",n.classList.add("hidden"),o.style.display="none",l.value="",d.classList.add("hidden"),!e.length||""===e[0])return void alert("Please enter tokens.");let i=[],s=[],a=e.length;for(let n=0;n<e.length;n++){let o=e[n].trim();if(!o)continue;let l=await fetch("/check-token",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:o})}),d=await l.json(),a=document.createElement("div");a.classList.add("token-box"),d.valid?(a.innerHTML=`<strong style="color:green;">✅ Valid</strong><br>Name: ${d.name}<br>User ID: ${d.user_id}`,i.push(o)):(a.innerHTML='<strong style="color:red;">❌ Invalid</strong>',s.push(o)),t.appendChild(a),await new Promise((e=>setTimeout(e,500)))}n.classList.remove("hidden"),d.innerHTML=`Total Tokens: ${a} | ✅ Valid: ${i.length} | ❌ Invalid: ${s.length}`,d.classList.remove("hidden"),i.length>0&&(l.value=i.join("\n"),o.style.display="block")}function copyTokens(){document.getElementById("valid-tokens").select(),document.execCommand("copy"),alert("Valid tokens copied to clipboard!")}</script>
+</body>
+</html>
